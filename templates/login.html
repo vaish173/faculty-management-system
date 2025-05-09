@@ -43,6 +43,7 @@
             margin: 8px 0;
             border: 1px solid #ccc;
             border-radius: 6px;
+            box-sizing: border-box;
         }
         .login-box button {
             width: 100%;
@@ -58,6 +59,22 @@
         .login-box button:hover {
             background: #45a049;
         }
+        .password-container {
+            position: relative;
+            margin: 8px 0;
+        }
+        .password-container input {
+            padding-right: 40px;
+        }
+        .toggle-eye {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            font-size: 18px;
+            user-select: none;
+        }
     </style>
 </head>
 <body>
@@ -71,25 +88,42 @@
 <div class="container">
 
     <!-- Teacher Login Box -->
-    <!-- Teacher Login Box -->
-<form class="login-box" action="{{ url_for('teacher_login') }}" method="POST">
-    <h2>Teacher Login</h2>
-    <input type="email" name="email" placeholder="Email" required>
-    <input type="password" name="password" placeholder="Password" required>
-    <button type="submit">Login as Teacher</button> <!-- NO <a> around button -->
-</form>
+    <form class="login-box" action="{{ url_for('teacher_login') }}" method="POST">
+        <h2>Teacher Login</h2>
+        <input type="email" name="email" placeholder="Email" required>
+        <div class="password-container">
+            <input type="password" id="teacher-password" name="password" placeholder="Password" required>
+            <span id="eye-teacher" class="toggle-eye" onclick="togglePassword('teacher-password', 'eye-teacher')">👁️</span>
+        </div>
+        <button type="submit">Login as Teacher</button>
+    </form>
 
-<!-- HOD Login Box -->
-<form class="login-box" action="{{ url_for('hod_login') }}" method="POST">
-    <h2>HOD Login</h2>
-    <input type="email" name="email" placeholder="Email" required>
-    <input type="password" name="password" placeholder="Password" required>
-    <button type="submit">Login as HOD</button> <!-- NO <a> around button -->
-</form>
-
+    <!-- HOD Login Box -->
+    <form class="login-box" action="{{ url_for('hod_login') }}" method="POST">
+        <h2>HOD Login</h2>
+        <input type="email" name="email" placeholder="Email" required>
+        <div class="password-container">
+            <input type="password" id="hod-password" name="password" placeholder="Password" required>
+            <span id="eye-hod" class="toggle-eye" onclick="togglePassword('hod-password', 'eye-hod')">👁️</span>
+        </div>
+        <button type="submit">Login as HOD</button>
+    </form>
 
 </div>
 
-</body>
-</html>
+<!-- JavaScript -->
+<script>
+    function togglePassword(inputId, eyeId) {
+        const input = document.getElementById(inputId);
+        const eye = document.getElementById(eyeId);
+        if (input.type === "password") {
+            input.type = "text";
+            eye.textContent = "🙈";
+        } else {
+            input.type = "password";
+            eye.textContent = "👁️";
+        }
+    }
+</script>
 
+</body>
