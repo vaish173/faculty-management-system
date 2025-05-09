@@ -2,78 +2,185 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Login Portal</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Portal | Faculty Management System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            background: #f5f5f5;
-        }
-        .banner {
-            width: 100%;
-            background: #fff;
-            padding: 10px 0;
-            text-align: center;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-        .banner img {
-            max-width: 300px;
-            height: auto;
-        }
-        .container {
-            display: flex;
-            justify-content: center;
-            gap: 50px;
-            margin-top: 50px;
-        }
-        .login-box {
-            background: white;
-            padding: 30px;
-            width: 300px;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-        }
-        .login-box h2 {
-            margin-bottom: 20px;
-            text-align: center;
-        }
-        .login-box input {
-            width: 100%;
-            padding: 12px;
-            margin: 8px 0;
-            border: 1px solid #ccc;
-            border-radius: 6px;
+        *, *::before, *::after {
             box-sizing: border-box;
         }
-        .login-box button {
+
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #1a252f;
+            --accent-color: #f39c12;
+            --light-color: #ecf0f1;
+            --success-color: #4cc9f0;
+            --text-color: #333;
+            --border-radius: 12px;
+            --box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f5f7ff;
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+        }
+
+        .banner {
             width: 100%;
-            padding: 12px;
-            background: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            font-size: 16px;
-            margin-top: 10px;
-            cursor: pointer;
+            background-color: white;
+            padding: 15px 0;
+            text-align: center;
+            box-shadow: var(--box-shadow);
         }
-        .login-box button:hover {
-            background: #45a049;
+
+        .banner img {
+            max-height: 80px;
+            width: auto;
+            object-fit: contain;
         }
+
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: calc(100vh - 110px);
+            padding: 2rem;
+            gap: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .login-box {
+            background-color: white;
+            padding: 2.5rem;
+            width: 350px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            transition: var(--transition);
+        }
+
+        .login-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15);
+        }
+
+        .login-box h2 {
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+
+        .login-box h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background-color: var(--accent-color);
+            border-radius: 3px;
+        }
+
+        .input-group {
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--dark-color);
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border-radius: var(--border-radius);
+            border: 1px solid #e0e0e0;
+            font-family: 'Poppins', sans-serif;
+            transition: var(--transition);
+        }
+
+        .password-container input {
+            padding-right: 2.5rem; /* reserve space for the eye icon */
+        }
+
+        .input-group input:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 0.25rem rgba(72, 149, 239, 0.25);
+            outline: none;
+        }
+
         .password-container {
             position: relative;
-            margin: 8px 0;
         }
-        .password-container input {
-            padding-right: 40px;
-        }
+
         .toggle-eye {
             position: absolute;
-            right: 10px;
+            right: 15px;
             top: 50%;
             transform: translateY(-50%);
             cursor: pointer;
-            font-size: 18px;
-            user-select: none;
+            color: #6c757d;
+            transition: var(--transition);
+        }
+
+        .toggle-eye:hover {
+            color: var(--primary-color);
+        }
+
+        .btn-login {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.8rem;
+            border-radius: 50px;
+            font-weight: 500;
+            width: 100%;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-login:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .teacher-box {
+            border-top: 4px solid var(--success-color);
+        }
+
+        .hod-box {
+            border-top: 4px solid var(--accent-color);
+        }
+
+        @media (max-width: 768px) {
+            .login-container {
+                flex-direction: column;
+                gap: 2rem;
+                padding: 1.5rem;
+            }
+
+            .login-box {
+                width: 100%;
+                max-width: 400px;
+                padding: 1.5rem;
+            }
         }
     </style>
 </head>
@@ -85,28 +192,36 @@
 </div>
 
 <!-- Login Forms -->
-<div class="container">
+<div class="login-container">
 
     <!-- Teacher Login Box -->
-    <form class="login-box" action="{{ url_for('teacher_login') }}" method="POST">
-        <h2>Teacher Login</h2>
-        <input type="email" name="email" placeholder="Email" required>
-        <div class="password-container">
-            <input type="password" id="teacher-password" name="password" placeholder="Password" required>
-            <span id="eye-teacher" class="toggle-eye" onclick="togglePassword('teacher-password', 'eye-teacher')">👁️</span>
+    <form class="login-box teacher-box" action="{{ url_for('teacher_login') }}" method="POST">
+        <h2><i class="fas fa-chalkboard-teacher"></i> Teacher Login</h2>
+        <div class="input-group">
+            <label for="teacher-email">Email Address</label>
+            <input type="email" id="teacher-email" name="email" placeholder="Enter your email" required>
         </div>
-        <button type="submit">Login as Teacher</button>
+        <div class="input-group password-container">
+            <label for="teacher-password">Password</label>
+            <input type="password" id="teacher-password" name="password" placeholder="Enter your password" required>
+            <i id="eye-teacher" class="fas fa-eye toggle-eye" onclick="togglePassword('teacher-password', 'eye-teacher')"></i>
+        </div>
+        <button type="submit" class="btn-login">Login as Teacher</button>
     </form>
 
     <!-- HOD Login Box -->
-    <form class="login-box" action="{{ url_for('hod_login') }}" method="POST">
-        <h2>HOD Login</h2>
-        <input type="email" name="email" placeholder="Email" required>
-        <div class="password-container">
-            <input type="password" id="hod-password" name="password" placeholder="Password" required>
-            <span id="eye-hod" class="toggle-eye" onclick="togglePassword('hod-password', 'eye-hod')">👁️</span>
+    <form class="login-box hod-box" action="{{ url_for('hod_login') }}" method="POST">
+        <h2><i class="fas fa-user-tie"></i> HOD Login</h2>
+        <div class="input-group">
+            <label for="hod-email">Email Address</label>
+            <input type="email" id="hod-email" name="email" placeholder="Enter your email" required>
         </div>
-        <button type="submit">Login as HOD</button>
+        <div class="input-group password-container">
+            <label for="hod-password">Password</label>
+            <input type="password" id="hod-password" name="password" placeholder="Enter your password" required>
+            <i id="eye-hod" class="fas fa-eye toggle-eye" onclick="togglePassword('hod-password', 'eye-hod')"></i>
+        </div>
+        <button type="submit" class="btn-login">Login as HOD</button>
     </form>
 
 </div>
@@ -118,12 +233,15 @@
         const eye = document.getElementById(eyeId);
         if (input.type === "password") {
             input.type = "text";
-            eye.textContent = "🙈";
+            eye.classList.remove("fa-eye");
+            eye.classList.add("fa-eye-slash");
         } else {
             input.type = "password";
-            eye.textContent = "👁️";
+            eye.classList.remove("fa-eye-slash");
+            eye.classList.add("fa-eye");
         }
     }
 </script>
 
 </body>
+</html>

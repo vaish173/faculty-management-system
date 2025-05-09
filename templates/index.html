@@ -4,88 +4,238 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Online College Faculty Record Management System</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
+    :root {
+      --primary-color: #2c3e50;
+      --secondary-color: #1a252f;
+      --accent-color: #f39c12;
+      --light-color: #ecf0f1;
+      --text-color: #333;
+      --transition: all 0.3s ease;
+    }
+
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
+
     body, html {
       height: 100%;
-      font-family: Arial, sans-serif;
+      font-family: 'Poppins', sans-serif;
+      color: var(--text-color);
     }
+
     nav {
-      background-color: #2c3e50;
-      padding: 10px 20px;
+      background-color: var(--primary-color);
+      padding: 15px 30px;
       display: flex;
       align-items: center;
       justify-content: space-between;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      position: fixed;
+      width: 100%;
+      z-index: 1000;
     }
+
     .nav-left {
       color: white;
-      font-size: 20px;
-      font-weight: bold;
+      font-size: 22px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
     }
+
+    .nav-left i {
+      margin-right: 10px;
+      color: var(--accent-color);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+    }
+
     .nav-links a {
       color: white;
       text-decoration: none;
-      margin-left: 20px;
+      margin-left: 25px;
       font-size: 16px;
       font-weight: 500;
+      padding: 8px 12px;
+      border-radius: 4px;
+      transition: var(--transition);
+      position: relative;
     }
+
     .nav-links a:hover {
-      color: orange;
+      color: var(--accent-color);
     }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background-color: var(--accent-color);
+      transition: var(--transition);
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
     .hero {
-      background: url('{{ url_for("static", filename="east point.png") }}') no-repeat center center/cover;
-      height: calc(100vh - 60px);
+      background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+                  url('{{ url_for("static", filename="east point.png") }}') no-repeat center center/cover;
+      height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       text-align: center;
       color: white;
-      position: relative;
+      padding: 0 20px;
     }
-    .hero::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.5);
+
+    .hero-content {
+      max-width: 800px;
+      animation: fadeIn 1s ease-out;
     }
-    .hero h1, .hero p {
-      position: relative;
-      z-index: 1;
-    }
+
     .hero h1 {
-      font-size: 40px;
+      font-size: 48px;
       margin-bottom: 20px;
+      font-weight: 700;
+      line-height: 1.2;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
     }
+
     .hero p {
-      font-size: 18px;
-      margin-bottom: 30px;
+      font-size: 20px;
+      margin-bottom: 40px;
+      opacity: 0.9;
+    }
+
+    .cta-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .btn {
+      padding: 12px 30px;
+      border-radius: 50px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .btn-primary {
+      background-color: var(--accent-color);
+      color: white;
+      border: 2px solid var(--accent-color);
+    }
+
+    .btn-primary:hover {
+      background-color: transparent;
+      color: var(--accent-color);
+      transform: translateY(-3px);
+    }
+
+    .btn-secondary {
+      background-color: transparent;
+      color: white;
+      border: 2px solid white;
+    }
+
+    .btn-secondary:hover {
+      background-color: white;
+      color: var(--primary-color);
+      transform: translateY(-3px);
+    }
+
+    .btn i {
+      margin-right: 8px;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 768px) {
+      nav {
+        flex-direction: column;
+        padding: 15px;
+      }
+
+      .nav-left {
+        margin-bottom: 15px;
+      }
+
+      .nav-links {
+        width: 100%;
+        justify-content: space-around;
+      }
+
+      .nav-links a {
+        margin: 0;
+      }
+
+      .hero h1 {
+        font-size: 36px;
+      }
+
+      .hero p {
+        font-size: 18px;
+      }
+
+      .cta-buttons {
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .btn {
+        width: 100%;
+        justify-content: center;
+      }
     }
   </style>
 </head>
 <body>
   <nav>
-    <div class="nav-left">East Point College of Engineering and Technology</div>
+    <div class="nav-left">
+      <i class="fas fa-graduation-cap"></i>
+      East Point College of Engineering and Technology
+    </div>
     <div class="nav-links">
       <a href="{{ url_for('index') }}">HOME</a>
       <a href="{{ url_for('about') }}">ABOUT US</a>
       <a href="{{ url_for('faculties') }}">FACULTIES</a>
       <a href="{{ url_for('contact') }}">CONTACT</a>
-      <a href="{{ url_for('login') }}">LOGIN</a>
-      <a href="{{ url_for('signup') }}">SIGNUP</a>
     </div>
   </nav>
 
   <section class="hero">
-    <h1>Faculty Record Management System</h1>
-    <p>View the details of college faculty members and their information.</p>
+    <div class="hero-content">
+      <h1>Faculty Record Management System</h1>
+      <p>Efficiently manage and view all faculty information in one centralized platform</p>
+      <div class="cta-buttons">
+        <a href="{{ url_for('login') }}" class="btn btn-primary">
+          <i class="fas fa-sign-in-alt"></i> Faculty Login
+        </a>
+        <a href="{{ url_for('signup') }}" class="btn btn-secondary">
+          <i class="fas fa-user-plus"></i> Sign Up
+        </a>
+      </div>
+    </div>
   </section>
 </body>
 </html>

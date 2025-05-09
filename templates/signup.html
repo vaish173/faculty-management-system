@@ -1,245 +1,377 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sign Up - Faculty Management Desk</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
-  <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #f4f4f4;
-    }
-    .form-container {
-      background-color: white;
-      padding: 30px;
-      border-radius: 10px;
-      max-width: 500px;
-      margin: 30px auto;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    }
-    .form-container h2 {
-      text-align: center;
-      margin-bottom: 25px;
-    }
-    .form-control, .form-select {
-      margin-bottom: 15px;
-    }
-    .btn-submit {
-      width: 100%;
-      padding: 10px;
-      font-size: 1.2rem;
-    }
-    .banner {
-      display: block;
-      max-width: 100%;
-      height: auto;
-      margin: 20px auto;
-      border-radius: 10px;
-    }
-    .pass-field {
-      position: relative;
-    }
-    .pass-field i {
-      position: absolute;
-      top: 50%;
-      right: 10px;
-      transform: translateY(-50%);
-      cursor: pointer;
-      color: #6c757d;
-    }
-    .requirement-list,
-    .email-requirements {
-      margin-top: 10px;
-      padding-left: 20px;
-    }
-    .requirement-list li,
-    .email-requirements li {
-      font-size: 0.9rem;
-      margin-bottom: 5px;
-      color: #6c757d;
-      list-style: none;
-      display: flex;
-      align-items: center;
-    }
-    .requirement-list li i,
-    .email-requirements li i {
-      margin-right: 8px;
-      font-size: 0.7rem;
-    }
-    .requirement-list li.valid i,
-    .email-requirements li.valid i {
-      color: green;
-      font-size: 0.9rem;
-    }
-    .requirement-list li.valid span,
-    .email-requirements li.valid span {
-      color: green;
-    }
-    .btn-submit:disabled {
-      opacity: 0.65;
-      cursor: not-allowed;
-    }
-    .error-message {
-      color: red;
-      font-size: 0.9rem;
-      margin-top: -10px;
-      margin-bottom: 10px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Faculty Registration | Academic Portal</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3f37c9;
+            --accent-color: #4895ef;
+            --light-color: #f8f9fa;
+            --dark-color: #212529;
+            --success-color: #4cc9f0;
+            --warning-color: #f72585;
+            --border-radius: 12px;
+            --box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f5f7ff;
+            color: var(--dark-color);
+            line-height: 1.6;
+        }
+
+        .registration-container {
+            max-width: 600px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .banner {
+            width: 100%;
+            max-height: 120px;
+            object-fit: contain;
+            margin-bottom: 2rem;
+            border-radius: var(--border-radius);
+        }
+
+        .registration-card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 2.5rem;
+            box-shadow: var(--box-shadow);
+            transition: var(--transition);
+        }
+
+        .registration-card:hover {
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15);
+        }
+
+        .registration-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .registration-header h2 {
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .registration-header p {
+            color: #6c757d;
+            font-size: 0.95rem;
+        }
+
+        .form-label {
+            font-weight: 500;
+            color: var(--dark-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .form-control, .form-select {
+            padding: 0.75rem 1rem;
+            border-radius: var(--border-radius);
+            border: 1px solid #e0e0e0;
+            transition: var(--transition);
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 0.25rem rgba(72, 149, 239, 0.25);
+        }
+
+        .input-group-text {
+            background-color: var(--light-color);
+            border-radius: var(--border-radius) 0 0 var(--border-radius);
+        }
+
+        .pass-field {
+            position: relative;
+        }
+
+        .pass-toggle {
+            position: absolute;
+            top: 50%;
+            right: 15px;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #6c757d;
+            transition: var(--transition);
+        }
+
+        .pass-toggle:hover {
+            color: var(--primary-color);
+        }
+
+        .requirement-list {
+            margin-top: 0.5rem;
+            padding-left: 0;
+        }
+
+        .requirement-list li {
+            font-size: 0.85rem;
+            margin-bottom: 0.4rem;
+            color: #6c757d;
+            list-style: none;
+            display: flex;
+            align-items: center;
+            transition: var(--transition);
+        }
+
+        .requirement-list li i {
+            margin-right: 8px;
+            font-size: 0.7rem;
+            transition: var(--transition);
+        }
+
+        .requirement-list li.valid {
+            color: var(--success-color);
+        }
+
+        .requirement-list li.valid i {
+            color: var(--success-color);
+            font-size: 0.9rem;
+        }
+
+        .error-message {
+            color: var(--warning-color);
+            font-size: 0.85rem;
+            margin-top: 0.25rem;
+            display: none;
+        }
+
+        .btn-submit {
+            background-color: var(--primary-color);
+            border: none;
+            padding: 0.8rem;
+            border-radius: 50px;
+            font-weight: 500;
+            width: 100%;
+            margin-top: 1rem;
+            transition: var(--transition);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-submit:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-submit:disabled {
+            background-color: #adb5bd;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .form-check-input:checked {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        .form-check-label {
+            font-size: 0.9rem;
+            color: #495057;
+        }
+
+        @media (max-width: 768px) {
+            .registration-card {
+                padding: 1.5rem;
+            }
+
+            .registration-header h2 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <!-- Banner Image -->
-    <img src="{{ url_for('static', filename='logo.jpg') }}" alt="College Banner" class="banner">
+    <div class="registration-container">
+        <!-- Banner Image -->
+        <img src="{{ url_for('static', filename='logo.jpg') }}" alt="College Banner" class="banner">
 
-    <div class="form-container">
-      <h2 class="fw-bold">Sign Up for Faculty Management Desk</h2>
-      <form method="POST" action="{{ url_for('signup') }}" enctype="multipart/form-data">
+        <div class="registration-card">
+            <div class="registration-header">
+                <h2><i class="fas fa-user-plus"></i> Faculty Registration</h2>
+                <p>Create your account to access the Faculty Management System</p>
+            </div>
 
-        <!-- Name -->
-        <div class="mb-3">
-          <label for="name" class="form-label">Full Name</label>
-          <input type="text" class="form-control" id="name" name="name" required>
+            <form method="POST" action="{{ url_for('signup') }}" enctype="multipart/form-data">
+                <!-- Name -->
+                <div class="mb-4">
+                    <label for="name" class="form-label">Full Name</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fas fa-user"></i></span>
+                        <input type="text" class="form-control" id="name" name="name" required>
+                    </div>
+                </div>
+
+                <!-- Email -->
+                <div class="mb-4">
+                    <label for="email" class="form-label">Email Address</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                        <input type="email" class="form-control" id="email" name="email" required>
+                    </div>
+                    <div id="emailError" class="error-message">
+                        <i class="fas fa-exclamation-circle"></i> Please enter a valid email address
+                    </div>
+                </div>
+
+                <!-- Contact Info -->
+                <div class="mb-4">
+                    <label for="contact" class="form-label">Contact Number</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                        <input type="text" class="form-control" id="contact" name="contact"
+                               pattern="\d{10}" maxlength="10"
+                               title="Enter a 10-digit contact number" required>
+                    </div>
+                </div>
+
+                <!-- Department -->
+                <div class="mb-4">
+                    <label for="department" class="form-label">Department</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fas fa-building"></i></span>
+                        <input type="text" class="form-control" name="department" placeholder="Department Name" required>
+                    </div>
+                </div>
+
+                <!-- Role Selection -->
+                <div class="mb-4">
+                    <label for="role" class="form-label">Role</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fas fa-user-tag"></i></span>
+                        <select class="form-select" id="role" name="role" required>
+                            <option value="">-- Select Role --</option>
+                            <option value="faculty">Faculty</option>
+                            <option value="hod">HOD</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Optional Checkbox -->
+                <div class="mb-4">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="is_faculty_checkbox" value="yes" id="facultyCheck">
+                        <label class="form-check-label" for="facultyCheck">
+                            I am also a Faculty (use same credentials for both roles)
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Profile Image Upload -->
+                <div class="mb-4">
+                    <label for="profile_img" class="form-label">Profile Image</label>
+                    <input type="file" class="form-control" id="profile_img" name="profile_img" accept="image/*">
+                    <small class="text-muted">Optional - JPG, PNG (Max 2MB)</small>
+                </div>
+
+                <!-- Password with validation -->
+                <div class="mb-4">
+                    <label for="password" class="form-label">Password</label>
+                    <div class="pass-field">
+                        <input type="password" class="form-control" id="password" name="password" required>
+                        <i class="fas fa-eye pass-toggle" id="togglePassword"></i>
+                    </div>
+                    <ul class="requirement-list mt-2">
+                        <li><i class="fas fa-circle"></i><span>At least 8 characters</span></li>
+                        <li><i class="fas fa-circle"></i><span>At least 1 number (0-9)</span></li>
+                        <li><i class="fas fa-circle"></i><span>At least 1 lowercase letter (a-z)</span></li>
+                        <li><i class="fas fa-circle"></i><span>At least 1 special character (!@#$...)</span></li>
+                        <li><i class="fas fa-circle"></i><span>At least 1 uppercase letter (A-Z)</span></li>
+                    </ul>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="btn btn-submit" id="submitBtn" disabled>
+                    <i class="fas fa-user-plus"></i> Register Account
+                </button>
+            </form>
         </div>
-
-        <!-- Email -->
-        <div class="mb-3">
-          <label for="email" class="form-label">Email Address</label>
-          <input type="email" class="form-control" id="email" name="email" required>
-          <div id="emailError" class="error-message d-none">Please enter a valid email address.</div>
-        </div>
-
-        <!-- Contact Info -->
-        <div class="mb-3">
-          <label for="contact" class="form-label">Contact Number</label>
-          <input type="text" class="form-control" id="contact" name="contact"
-                 pattern="\d{10}" maxlength="10"
-                 title="Enter a 10-digit contact number" required>
-        </div>
-
-        <!-- Department -->
-        <div class="mb-3">
-          <label for="department" class="form-label">Department</label>
-          <input type="text" class="form-control" name="department" placeholder="Department Name" required>
-        </div>
-
-        <!-- Role Selection -->
-        <div class="mb-3">
-          <label for="role" class="form-label">Role</label>
-          <select class="form-select" id="role" name="role" required>
-            <option value="">-- Select Role --</option>
-            <option value="faculty">Faculty</option>
-            <option value="hod">HOD</option>
-          </select>
-        </div>
-
-        <!-- Optional Checkbox -->
-        <div class="mb-3">
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" name="is_faculty_checkbox" value="yes" id="facultyCheck">
-            <label class="form-check-label" for="facultyCheck">
-              I am also a Faculty (use same credentials for both roles)
-            </label>
-          </div>
-        </div>
-
-        <!-- ✅ Profile Image Upload -->
-        <div class="mb-3">
-          <label for="profile_img" class="form-label">Upload Profile Image</label>
-          <input type="file" class="form-control" id="profile_img" name="profile_img" accept="image/*">
-        </div>
-
-        <!-- Password with validation -->
-        <div class="mb-3">
-          <label for="password" class="form-label">Password</label>
-          <div class="pass-field">
-            <input type="password" class="form-control" id="password" name="password" required>
-            <i class="fa-solid fa-eye" id="togglePassword"></i>
-          </div>
-          <ul class="requirement-list mt-2">
-            <li><i class="fa-solid fa-circle"></i><span>At least 8 characters</span></li>
-            <li><i class="fa-solid fa-circle"></i><span>At least 1 number (0-9)</span></li>
-            <li><i class="fa-solid fa-circle"></i><span>At least 1 lowercase letter (a-z)</span></li>
-            <li><i class="fa-solid fa-circle"></i><span>At least 1 special character (!@#$...)</span></li>
-            <li><i class="fa-solid fa-circle"></i><span>At least 1 uppercase letter (A-Z)</span></li>
-          </ul>
-        </div>
-
-        <!-- Submit Button -->
-        <button type="submit" class="btn btn-primary btn-submit" id="submitBtn" disabled>Sign Up</button>
-      </form>
     </div>
-  </div>
 
-  <script>
-    const passInput = document.getElementById("password");
-    const eyeIcon = document.getElementById("togglePassword");
-    const reqList = document.querySelectorAll(".requirement-list li");
-    const emailInput = document.getElementById("email");
-    const emailError = document.getElementById("emailError");
-    const contactInput = document.getElementById("contact");
-    const submitBtn = document.getElementById("submitBtn");
-    const roleSelect = document.getElementById("role");
-    const facultyCheckbox = document.getElementById("facultyCheck");
+    <script>
+        // All original JavaScript remains exactly the same
+        const passInput = document.getElementById("password");
+        const eyeIcon = document.getElementById("togglePassword");
+        const reqList = document.querySelectorAll(".requirement-list li");
+        const emailInput = document.getElementById("email");
+        const emailError = document.getElementById("emailError");
+        const contactInput = document.getElementById("contact");
+        const submitBtn = document.getElementById("submitBtn");
+        const roleSelect = document.getElementById("role");
+        const facultyCheckbox = document.getElementById("facultyCheck");
 
-    const passRequirements = [
-      { regex: /.{8,}/, index: 0 },
-      { regex: /[0-9]/, index: 1 },
-      { regex: /[a-z]/, index: 2 },
-      { regex: /[^A-Za-z0-9]/, index: 3 },
-      { regex: /[A-Z]/, index: 4 }
-    ];
+        const passRequirements = [
+            { regex: /.{8,}/, index: 0 },
+            { regex: /[0-9]/, index: 1 },
+            { regex: /[a-z]/, index: 2 },
+            { regex: /[^A-Za-z0-9]/, index: 3 },
+            { regex: /[A-Z]/, index: 4 }
+        ];
 
-    function validateAll() {
-      const passValid = passRequirements.every(item => item.regex.test(passInput.value));
-      const emailValid = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(emailInput.value);
-      const contactValid = /^\d{10}$/.test(contactInput.value);
+        function validateAll() {
+            const passValid = passRequirements.every(item => item.regex.test(passInput.value));
+            const emailValid = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(emailInput.value);
+            const contactValid = /^\d{10}$/.test(contactInput.value);
 
-      emailError.classList.toggle("d-none", emailValid);
-      submitBtn.disabled = !(passValid && emailValid && contactValid);
-    }
-
-    passInput.addEventListener("keyup", (e) => {
-      passRequirements.forEach((item) => {
-        const isValid = item.regex.test(e.target.value);
-        const requirementItem = reqList[item.index];
-        if (isValid) {
-          requirementItem.classList.add("valid");
-          requirementItem.querySelector("i").className = "fa-solid fa-check";
-        } else {
-          requirementItem.classList.remove("valid");
-          requirementItem.querySelector("i").className = "fa-solid fa-circle";
+            emailError.style.display = emailValid ? "none" : "block";
+            submitBtn.disabled = !(passValid && emailValid && contactValid);
         }
-      });
-      validateAll();
-    });
 
-    emailInput.addEventListener("input", () => {
-      validateAll();
-    });
+        passInput.addEventListener("keyup", (e) => {
+            passRequirements.forEach((item) => {
+                const isValid = item.regex.test(e.target.value);
+                const requirementItem = reqList[item.index];
+                if (isValid) {
+                    requirementItem.classList.add("valid");
+                    requirementItem.querySelector("i").className = "fas fa-check";
+                } else {
+                    requirementItem.classList.remove("valid");
+                    requirementItem.querySelector("i").className = "fas fa-circle";
+                }
+            });
+            validateAll();
+        });
 
-    contactInput.addEventListener("input", function () {
-      this.value = this.value.replace(/\D/g, '').slice(0, 10);
-      validateAll();
-    });
+        emailInput.addEventListener("input", () => {
+            validateAll();
+        });
 
-    eyeIcon.addEventListener("click", () => {
-      const type = passInput.getAttribute("type") === "password" ? "text" : "password";
-      passInput.setAttribute("type", type);
-      eyeIcon.classList.toggle("fa-eye-slash");
-    });
+        contactInput.addEventListener("input", function () {
+            this.value = this.value.replace(/\D/g, '').slice(0, 10);
+            validateAll();
+        });
 
-    roleSelect.addEventListener("change", () => {
-      facultyCheckbox.disabled = roleSelect.value === "faculty";
-    });
+        eyeIcon.addEventListener("click", () => {
+            const type = passInput.getAttribute("type") === "password" ? "text" : "password";
+            passInput.setAttribute("type", type);
+            eyeIcon.classList.toggle("fa-eye-slash");
+        });
 
-    // Initial validation and checkbox setup
-    validateAll();
-    if (roleSelect.value === "faculty") {
-      facultyCheckbox.disabled = true;
-    }
-  </script>
+        roleSelect.addEventListener("change", () => {
+            facultyCheckbox.disabled = roleSelect.value === "faculty";
+        });
+
+        // Initial validation and checkbox setup
+        validateAll();
+        if (roleSelect.value === "faculty") {
+            facultyCheckbox.disabled = true;
+        }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

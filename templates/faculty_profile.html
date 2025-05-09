@@ -2,74 +2,255 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Fill Your Profile</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete Your Profile | Faculty Portal</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script>
-        function submitForm(event) {
-            event.preventDefault(); // Prevent default form submission
-
-            fetch("{{ url_for('faculty_profile') }}", {
-                method: "POST",
-                body: new FormData(document.getElementById("profileForm"))
-            })
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById("statusMessage").innerText = "Profile updated successfully!";
-            });
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3f37c9;
+            --accent-color: #4895ef;
+            --light-color: #f8f9fa;
+            --dark-color: #212529;
+            --success-color: #4cc9f0;
+            --border-radius: 12px;
+            --box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
         }
-    </script>
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f5f7ff;
+            color: var(--dark-color);
+            line-height: 1.6;
+        }
+
+        .profile-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+
+        .profile-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .profile-header h2 {
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .profile-header p {
+            color: #6c757d;
+        }
+
+        .status-message {
+            text-align: center;
+            padding: 0.75rem;
+            margin-bottom: 1.5rem;
+            border-radius: var(--border-radius);
+            font-weight: 500;
+            display: none;
+        }
+
+        .success-message {
+            background-color: rgba(76, 201, 240, 0.2);
+            color: var(--success-color);
+            border: 1px solid var(--success-color);
+        }
+
+        .form-label {
+            font-weight: 500;
+            color: var(--dark-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .form-control {
+            padding: 0.75rem 1rem;
+            border-radius: var(--border-radius);
+            border: 1px solid #e0e0e0;
+            transition: var(--transition);
+        }
+
+        .form-control:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 0.25rem rgba(72, 149, 239, 0.25);
+        }
+
+        .input-group-text {
+            background-color: var(--light-color);
+            border-radius: var(--border-radius) 0 0 var(--border-radius);
+        }
+
+        .btn-submit {
+            background-color: var(--primary-color);
+            border: none;
+            padding: 0.75rem 2rem;
+            border-radius: 50px;
+            font-weight: 500;
+            width: 100%;
+            margin-top: 1rem;
+            transition: var(--transition);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-submit:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .form-note {
+            font-size: 0.85rem;
+            color: #6c757d;
+            margin-top: 0.25rem;
+            font-style: italic;
+        }
+
+        @media (max-width: 768px) {
+            .profile-container {
+                padding: 1.5rem;
+                margin: 1rem;
+            }
+
+            .profile-header h2 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
 </head>
 <body>
-<div class="container">
-    <h2 class="mt-4">Complete Your Profile</h2>
-    <p id="statusMessage" style="color: green;"></p>
+<div class="profile-container">
+    <div class="profile-header">
+        <h2><i class="fas fa-user-edit"></i> Complete Your Profile</h2>
+        <p>Help students and colleagues learn more about your academic background</p>
+    </div>
+
+    <div id="statusMessage" class="status-message success-message">
+        <i class="fas fa-check-circle"></i> Profile updated successfully!
+    </div>
 
     <form id="profileForm" method="POST" onsubmit="submitForm(event)">
         <!-- Education -->
-        <div class="mb-3">
+        <div class="mb-4">
             <label for="education" class="form-label">Education</label>
-            <input type="text" class="form-control" id="education" name="education" value="{{ faculty.education if faculty and faculty.education else '' }}" placeholder="Enter your degrees (e.g., B.Tech, M.Tech)">
+            <div class="input-group">
+                <span class="input-group-text"><i class="fas fa-graduation-cap"></i></span>
+                <input type="text" class="form-control" id="education" name="education"
+                       value="{{ faculty.education if faculty and faculty.education else '' }}"
+                       placeholder="E.g., Ph.D. in Computer Science, M.Tech in Artificial Intelligence">
+            </div>
+            <p class="form-note">List your degrees from highest to lowest</p>
         </div>
 
         <!-- Specialization -->
-        <div class="mb-3">
+        <div class="mb-4">
             <label for="specialization" class="form-label">Specialization</label>
-            <input type="text" class="form-control" id="specialization" name="specialization" value="{{ faculty.specialization if faculty and faculty.specialization else '' }}" placeholder="Your field of expertise">
+            <div class="input-group">
+                <span class="input-group-text"><i class="fas fa-atom"></i></span>
+                <input type="text" class="form-control" id="specialization" name="specialization"
+                       value="{{ faculty.specialization if faculty and faculty.specialization else '' }}"
+                       placeholder="Your primary field of expertise">
+            </div>
         </div>
 
         <!-- Experience -->
-        <div class="mb-3">
-            <label for="experience" class="form-label">Experience</label>
-            <input type="number" class="form-control" id="experience" name="experience" value="{{ faculty.experience if faculty and faculty.experience else '' }}" placeholder="Years of teaching experience">
+        <div class="mb-4">
+            <label for="experience" class="form-label">Teaching Experience</label>
+            <div class="input-group">
+                <span class="input-group-text"><i class="fas fa-chalkboard-teacher"></i></span>
+                <input type="number" class="form-control" id="experience" name="experience"
+                       value="{{ faculty.experience if faculty and faculty.experience else '' }}"
+                       placeholder="Total years of teaching experience">
+                <span class="input-group-text">years</span>
+            </div>
         </div>
 
         <!-- Courses Taught -->
-        <div class="mb-3">
+        <div class="mb-4">
             <label for="courses_taught" class="form-label">Courses Taught</label>
-            <input type="text" class="form-control" id="courses_taught" name="courses_taught" value="{{ ', '.join(faculty.courses_taught) if faculty and faculty.courses_taught else '' }}" placeholder="Comma-separated course names">
+            <div class="input-group">
+                <span class="input-group-text"><i class="fas fa-book-open"></i></span>
+                <input type="text" class="form-control" id="courses_taught" name="courses_taught"
+                       value="{{ ', '.join(faculty.courses_taught) if faculty and faculty.courses_taught else '' }}"
+                       placeholder="E.g., Data Structures, Algorithms, Machine Learning">
+            </div>
+            <p class="form-note">Separate multiple courses with commas</p>
         </div>
 
         <!-- Research Interests -->
-        <div class="mb-3">
+        <div class="mb-4">
             <label for="research_interests" class="form-label">Research Interests</label>
-            <input type="text" class="form-control" id="research_interests" name="research_interests" value="{{ ', '.join(faculty.research_interests) if faculty and faculty.research_interests else '' }}" placeholder="Comma-separated research areas">
+            <div class="input-group">
+                <span class="input-group-text"><i class="fas fa-flask"></i></span>
+                <input type="text" class="form-control" id="research_interests" name="research_interests"
+                       value="{{ ', '.join(faculty.research_interests) if faculty and faculty.research_interests else '' }}"
+                       placeholder="E.g., Artificial Intelligence, Computer Vision, NLP">
+            </div>
+            <p class="form-note">Separate multiple interests with commas</p>
         </div>
 
         <!-- Skills -->
-        <div class="mb-3">
-            <label for="skills" class="form-label">Skills</label>
-            <input type="text" class="form-control" id="skills" name="skills" value="{{ ', '.join(faculty.skills) if faculty and faculty.skills else '' }}" placeholder="Comma-separated skills (e.g., Python, MATLAB)">
+        <div class="mb-4">
+            <label for="skills" class="form-label">Technical Skills</label>
+            <div class="input-group">
+                <span class="input-group-text"><i class="fas fa-code"></i></span>
+                <input type="text" class="form-control" id="skills" name="skills"
+                       value="{{ ', '.join(faculty.skills) if faculty and faculty.skills else '' }}"
+                       placeholder="E.g., Python, MATLAB, TensorFlow, PyTorch">
+            </div>
         </div>
 
         <!-- Awards -->
-        <div class="mb-3">
-            <label for="awards" class="form-label">Awards</label>
-            <input type="text" class="form-control" id="awards" name="awards" value="{{ faculty.awards if faculty and faculty.awards else '' }}" placeholder="List any awards">
+        <div class="mb-4">
+            <label for="awards" class="form-label">Awards & Honors</label>
+            <div class="input-group">
+                <span class="input-group-text"><i class="fas fa-trophy"></i></span>
+                <input type="text" class="form-control" id="awards" name="awards"
+                       value="{{ faculty.awards if faculty and faculty.awards else '' }}"
+                       placeholder="E.g., Best Teacher Award 2020, Research Excellence Award">
+            </div>
         </div>
 
         <!-- Submit Button -->
-        <button type="submit" class="btn btn-primary">Save Profile</button>
+        <button type="submit" class="btn btn-submit">
+            <i class="fas fa-save"></i> Save Profile
+        </button>
     </form>
 </div>
+
+<script>
+    function submitForm(event) {
+        event.preventDefault(); // Prevent default form submission
+
+        fetch("{{ url_for('faculty_profile') }}", {
+            method: "POST",
+            body: new FormData(document.getElementById("profileForm"))
+        })
+        .then(response => response.text())
+        .then(data => {
+            const statusElement = document.getElementById("statusMessage");
+            statusElement.style.display = "block";
+            statusElement.scrollIntoView({ behavior: 'smooth' });
+
+            // Hide the message after 5 seconds
+            setTimeout(() => {
+                statusElement.style.display = "none";
+            }, 5000);
+        });
+    }
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
