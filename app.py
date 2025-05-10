@@ -9,7 +9,9 @@ app = Flask(__name__)
 app.secret_key = "your_secret_key"
 
 # MongoDB Setup
-app.config["MONGO_URI"] = "mongodb://localhost:27017/faculty_desk"
+import os
+app.config["MONGO_URI"] = os.environ.get("MONGO_URI", "mongodb://localhost:27017/faculty_desk")
+
 mongo = PyMongo(app)
 
 # Configure upload folder
