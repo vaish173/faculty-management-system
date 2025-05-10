@@ -337,6 +337,9 @@ def update_students(year, section, subject):
 @app.route("/view_faculty_profile/<email>")
 def view_faculty_profile(email):
     faculty = mongo.db.users.find_one({"email": email})
+    if faculty:
+        # Ensure profile_img field exists with default if not present
+        faculty['profile_img'] = faculty.get('profile_img', 'default_profile.png')
     return render_template('view_faculty_profile.html', faculty=faculty)
 
 

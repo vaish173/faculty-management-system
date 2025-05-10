@@ -1,66 +1,305 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Faculty Timetable</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ faculty.name }}'s Timetable | Academic Portal</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        .container {
-            max-width: 800px;
-            margin: auto;
-            padding: 20px;
-            border: 2px solid #ddd;
-            border-radius: 10px;
-            background-color: #f8f9fa;
-            text-align: center;
+        :root {
+            --primary: #2c3e50;
+            --secondary: #1a252f;
+            --accent: #f39c12;
+            --light: #ecf0f1;
+            --success: #4cc9f0;
+            --text: #333;
+            --radius: 12px;
+            --shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+            --gold: #FFD700;
+            --silver: #C0C0C0;
         }
-        table {
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 2rem 1rem;
+        }
+
+        .timetable-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            position: relative;
+            z-index: 1;
+        }
+
+        .timetable-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
-            margin-top: 10px;
+            height: 8px;
+            background: linear-gradient(90deg, var(--accent), var(--success));
+            z-index: 2;
         }
-        th, td {
+
+        .timetable-header {
+            padding: 2rem;
             text-align: center;
-            padding: 10px;
-            border: 1px solid #ddd;
+            background: white;
+            position: relative;
+            overflow: hidden;
         }
+
+        .timetable-header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 3px;
+            background: var(--accent);
+        }
+
+        .timetable-title {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            font-size: 2.2rem;
+            position: relative;
+        }
+
+        .faculty-name {
+            color: var(--accent);
+            font-weight: 600;
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+        }
+
+        .timetable-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin: 0;
+        }
+
+        .timetable-table thead th {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+            font-weight: 600;
+            padding: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .timetable-table tbody tr:nth-child(even) {
+            background-color: rgba(236, 240, 241, 0.5);
+        }
+
+        .timetable-table tbody tr:hover {
+            background-color: rgba(76, 201, 240, 0.1);
+            transform: scale(1.01);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+            transition: var(--transition);
+        }
+
+        .timetable-table td {
+            padding: 1rem;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            position: relative;
+        }
+
+        .timetable-table td:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 1px;
+            height: 60%;
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        .department-cell {
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .subject-cell {
+            font-weight: 500;
+            color: var(--secondary);
+        }
+
+        .time-cell {
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        .no-entries {
+            padding: 2rem;
+            text-align: center;
+            font-style: italic;
+            color: #6c757d;
+        }
+
+        .timetable-footer {
+            padding: 1.5rem;
+            text-align: center;
+            background: var(--light);
+            border-top: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .print-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 500;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .print-btn:hover {
+            background: var(--secondary);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .print-btn i {
+            margin-right: 8px;
+        }
+
+        @media (max-width: 768px) {
+            .timetable-container {
+                border-radius: 0;
+            }
+
+            .timetable-title {
+                font-size: 1.8rem;
+            }
+
+            .timetable-table thead {
+                display: none;
+            }
+
+            .timetable-table tr {
+                display: block;
+                margin-bottom: 1rem;
+                border-radius: var(--radius);
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            }
+
+            .timetable-table td {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 0.75rem 1rem;
+                border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            }
+
+            .timetable-table td::before {
+                content: attr(data-label);
+                font-weight: 600;
+                color: var(--primary);
+                margin-right: 1rem;
+            }
+
+            .timetable-table td:not(:last-child)::after {
+                display: none;
+            }
+        }
+
+        /* Animation for table rows */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .timetable-table tbody tr {
+            animation: fadeIn 0.3s ease-out;
+            animation-fill-mode: both;
+        }
+
+        .timetable-table tbody tr:nth-child(1) { animation-delay: 0.1s; }
+        .timetable-table tbody tr:nth-child(2) { animation-delay: 0.2s; }
+        .timetable-table tbody tr:nth-child(3) { animation-delay: 0.3s; }
+        .timetable-table tbody tr:nth-child(4) { animation-delay: 0.4s; }
+        .timetable-table tbody tr:nth-child(5) { animation-delay: 0.5s; }
+        .timetable-table tbody tr:nth-child(n+6) { animation-delay: 0.6s; }
     </style>
 </head>
 <body>
+    <div class="timetable-container">
+        <div class="timetable-header">
+            <h1 class="timetable-title">Teaching Schedule</h1>
+            <div class="faculty-name">{{ faculty.name }}</div>
+        </div>
 
-<div class="container">
-    <h2>Timetable for {{ faculty.name }}</h2>
+        <div class="table-responsive">
+            <table class="timetable-table">
+                <thead>
+                    <tr>
+                        <th>Department</th>
+                        <th>Year</th>
+                        <th>Section</th>
+                        <th>Day</th>
+                        <th>Time</th>
+                        <th>Subject</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if timetable %}
+                        {% for entry in timetable %}
+                        <tr>
+                            <td class="department-cell" data-label="Department">{{ entry.teaching_for_department }}</td>
+                            <td data-label="Year">{{ entry.year }}</td>
+                            <td data-label="Section">{{ entry.section }}</td>
+                            <td data-label="Day">{{ entry.day }}</td>
+                            <td class="time-cell" data-label="Time">{{ entry.time }}</td>
+                            <td class="subject-cell" data-label="Subject">{{ entry.subject }}</td>
+                        </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="6" class="no-entries">No timetable entries found</td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
 
-    <table class="table table-bordered">
-        <thead class="table-dark">
-            <tr>
-                <th>Department</th>
-                <th>Year</th>
-                <th>Section</th>
-                <th>Day</th>
-                <th>Time</th>
-                <th>Subject</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% if timetable %}
-                {% for entry in timetable %}
-                <tr>
-                    <td>{{ entry.teaching_for_department }}</td>
-                    <td>{{ entry.year }}</td>
-                    <td>{{ entry.section }}</td>
-                    <td>{{ entry.day }}</td>
-                    <td>{{ entry.time }}</td>
-                    <td>{{ entry.subject }}</td>
-                </tr>
-                {% endfor %}
-            {% else %}
-                <tr>
-                    <td colspan="6">No timetable entries found.</td>
-                </tr>
-            {% endif %}
-        </tbody>
-    </table>
-</div>
+        <div class="timetable-footer">
+            <button class="print-btn" onclick="window.print()">
+                <i class="fas fa-print"></i> Print Timetable
+            </button>
+        </div>
+    </div>
 
+    <script>
+        // Add slight delay to animations for better visual effect
+        document.addEventListener('DOMContentLoaded', function() {
+            const rows = document.querySelectorAll('.timetable-table tbody tr');
+            rows.forEach((row, index) => {
+                row.style.animationDelay = `${index * 0.1}s`;
+            });
+        });
+    </script>
 </body>
 </html>
-
