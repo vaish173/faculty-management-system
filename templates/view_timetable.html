@@ -53,12 +53,30 @@
             z-index: 2;
         }
 
+        .header-top-bar {
+            background: var(--primary);
+            padding: 0.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .college-logo {
+            height: 50px;
+            width: auto;
+            object-fit: contain;
+        }
+
         .timetable-header {
             padding: 2rem;
             text-align: center;
             background: white;
             position: relative;
             overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 2rem;
         }
 
         .timetable-header::after {
@@ -70,6 +88,19 @@
             width: 200px;
             height: 3px;
             background: var(--accent);
+        }
+
+        .profile-image {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 4px solid var(--accent);
+            object-fit: cover;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-content {
+            text-align: left;
         }
 
         .timetable-title {
@@ -191,6 +222,26 @@
                 border-radius: 0;
             }
 
+            .header-top-bar {
+                padding: 0.5rem 1rem;
+            }
+
+            .timetable-header {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+                padding: 1.5rem;
+            }
+
+            .header-content {
+                text-align: center;
+            }
+
+            .profile-image {
+                width: 80px;
+                height: 80px;
+            }
+
             .timetable-title {
                 font-size: 1.8rem;
             }
@@ -247,11 +298,23 @@
 </head>
 <body>
     <div class="timetable-container">
-        <div class="timetable-header">
-            <h1 class="timetable-title">Teaching Schedule</h1>
-            <div class="faculty-name">{{ faculty.name }}</div>
+        <!-- Top bar with college logo -->
+        <div class="header-top-bar">
+            <img src="{{ url_for('static', filename='logo.jpg') }}" alt="College Logo" class="college-logo">
         </div>
 
+        <!-- Header with faculty profile and title -->
+        <div class="timetable-header">
+            <img class="profile-image"
+                 src="{{ url_for('static', filename='uploads/' + faculty.profile_img) if faculty.profile_img != 'default_profile.png' else url_for('static', filename='images/default_profile.png') }}"
+                 alt="Profile Image">
+            <div class="header-content">
+                <h1 class="timetable-title">Faculty Time-Table</h1>
+                <div class="faculty-name">{{ faculty.name }}</div>
+            </div>
+        </div>
+
+        <!-- Timetable content -->
         <div class="table-responsive">
             <table class="timetable-table">
                 <thead>
